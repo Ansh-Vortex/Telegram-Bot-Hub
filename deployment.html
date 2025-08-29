@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment - Telegram Bot Hub</title>
+    <link rel="icon" href="logo tab.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0088cc;
+            --primary-dark: #006da3;
+            --secondary: #f8f9fa;
+            --dark: #212529;
+            --light: #ffffff;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gradient: #2e86de;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-top: 80px; /* Account for fixed header */
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            background: var(--gradient);
+            color: #ffffff;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+        
+        .cta-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Deployment Section */
+        .deployment {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 2rem;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .deployment-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .pricing-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pricing-box:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-box.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.03);
+        }
+        
+        .pricing-box.popular:before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .pricing-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+        
+        .price-period {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+            flex-grow: 1;
+        }
+        
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-features li i {
+            color: var(--success);
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+        
+        .process-step {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 auto 15px;
+        }
+        
+        .process-step h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background: var(--secondary);
+            padding: 60px 0;
+        }
+        
+        .faq-item {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--gray);
+        }
+        
+        .faq-answer.active {
+            padding: 0 18px 18px;
+            max-height: 200px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .footer-column p {
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .pricing-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            .pricing-box.popular {
+                transform: scale(1.02);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            header {
+                height: 70px;
+                padding: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--gradient);
+                transition: right 0.3s ease;
+                z-index: 1000;
+                padding: 80px 20px 20px;
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .header-cta {
+                display: none;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin: 30px 0 20px;
+            }
+            
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .mobile-cta {
+                display: block;
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo img {
+                height: 40px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-box {
+                padding: 20px 15px;
+            }
+            
+            .pricing-box.popular {
+                transform: scale(1);
+            }
+            
+            .price-tag {
+                font-size: 2rem;
+            }
+            
+            .faq-question {
+                font-size: 1rem;
+                padding: 15px;
+            }
+            
+            .faq-answer {
+                padding: 0 15px;
+            }
+            
+            .faq-answer.active {
+                padding: 0 15px 15px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-cta {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="Telegram Bot Hub Logo">
+                </div>
+                
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <nav id="nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="free.html">Free Bots</a></li>
+                        <li><a href="premium.html">Premium Bots</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="documentation.html">Docs</a></li>
+                    </ul>
+                    <div class="mobile-cta">
+                        <a href="faq.html" class="cta-button">FAQs</a>
+                    </div>
+                </nav>
+                
+                <div class="header-cta">
+                    <a href="faq.html" class="cta-button">FAQs</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Professional Bot Deployment</h1>
+            <p>Get your Telegram bot deployed and hosted professionally with 99.9% uptime guarantee</p>
+            <a href="https://t.me/highoncodes" class="cta-button">Start Deployment</a>
+        </div>
+    </section>
+
+    <!-- Deployment Section -->
+    <section class="deployment">
+        <div class="container">
+            <h2 class="section-title">Deployment Plans</h2>
+            <div class="deployment-content">
+                <div class="pricing-container">
+                    <div class="pricing-box">
+                        <h3>Basic Hosting</h3>
+                        <div class="price-tag">₹50 <span class="price-period">/month</span></div>
+                        <p>Perfect for small bots with basic requirements</p>
+                        
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check-circle"></i> 24/7 Bot Operation</li>
+                            <li><i class="fas fa-check-circle"></i> Basic Server Resources</li>
+                            <li><i class="fas fa-check-circle"></i> Daily Backups</li>
+                            <li><i class="fas fa-check-circle"></i> Basic Monitoring</li>
+                            <li><i class="fas fa-check-circle"></i> 1 Bot Hosting</li>
+                        </ul>
+                        
+                        <a href="https://t.me/highoncodes" class="cta-button">Get Started</a>
+                    </div>
+                    
+                    <div class="pricing-box popular">
+                        <h3>Professional Hosting</h3>
+                        <div class="price-tag">₹150 <span class="price-period">/month</span></div>
+                        <p>Ideal for most bots with standard requirements</p>
+                        
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check-circle"></i> Everything in Basic Plan</li>
+                            <li><i class="fas fa-check-circle"></i> Enhanced Server Resources</li>
+                            <li><i class="fas fa-check-circle"></i> Real-time Monitoring</li>
+                            <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                            <li><i class="fas fa-check-circle"></i> 2 Bot Hosting</li>
+                            <li><i class="fas fa-check-circle"></i> SSL Certificate</li>
+                        </ul>
+                        
+                        <a href="https://t.me/highoncodes" class="cta-button">Get Started</a>
+                    </div>
+                    
+                    <div class="pricing-box">
+                        <h3>Enterprise Hosting</h3>
+                        <div class="price-tag">₹500 <span class="price-period">/month</span></div>
+                        <p>For large-scale bots with high resource needs</p>
+                        
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check-circle"></i> Everything in Professional Plan</li>
+                            <li><i class="fas fa-check-circle"></i> Dedicated Server Resources</li>
+                            <li><i class="fas fa-check-circle"></i> Advanced Monitoring & Analytics</li>
+                            <li><i class="fas fa-check-circle"></i> 24/7 Priority Support</li>
+                            <li><i class="fas fa-check-circle"></i> Custom Configurations</li>
+                            <li><i class="fas fa-check-circle"></i> 5 bot Hosting</li>
+                        </ul>
+                        
+                        <a href="https://t.me/highoncodes" class="cta-button">Get Started</a>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Deployment Process</h2>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Contact Us</h3>
+                        <p>Reach out to us on Telegram with your bot requirements</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>Choose Plan</h3>
+                        <p>Select the hosting plan that best fits your needs</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Send Files</h3>
+                        <p>Provide us with your bot source code and requirements</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>Go Live</h3>
+                        <p>We deploy your bot and provide you with access details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="deployment-content">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What do I need to provide for deployment?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You need to provide your bot's source code, any environment variables or configuration files, and details about any external services your bot uses.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How long does deployment take?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Typically, deployment is completed within 24-48 hours after we receive all necessary files and information.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Do you offer custom bot development?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer custom bot development services. Contact us on Telegram to discuss your requirements.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What payment methods do you accept?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept UPI, bank transfers, and cryptocurrency for payment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Telegram Bot Hub</h3>
+                    <p>Your destination for the best Telegram bots. Free and premium options available for all users.</p>
+                    <div class="social-links">
+                        <a href="https://t.me/highoncodes"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                        <li><a href="free.html"> Free Bots</a></li>
+                        <li><a href="premium.html"> Premium Bots</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="https://t.me/highoncodes">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="https://t.me/highoncodes">Telegram: @highoncodes</a></li>
+                        <li><a href="mailto:telegram.bots.hub@gmail.com">Email: telegram.bots.hub@gmail.com</a></li>
+                        <li><a href="https://t.me/highoncodes">Support Center</a></li>
+                        <li><a href="documentation.html">Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Telegram Bot Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenu = document.getElementById('mobile-menu');
+        const nav = document.getElementById('nav');
+        
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on links
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                nav.classList.remove('active');
+            });
+        });
+        
+        // FAQ functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                // Toggle active class on answer
+                answer.classList.toggle('active');
+                
+                // Toggle icon
+                if (answer.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

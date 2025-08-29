@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Telegram Bot Hub</title>
+  <link rel="icon" href="logo tab.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0088cc;
+      --primary-dark: #006da3;
+      --secondary: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --gradient: linear-gradient(135deg, var(--primary), #2e86de);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background: #f9f9f9;
+      color: var(--dark);
+      line-height: 1.6;
+      padding-top: 80px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      background: var(--gradient);
+      color: white;
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo img {
+      height: 50px;
+      width: auto;
+    }
+    
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+    }
+    
+    .menu-toggle span {
+      height: 3px;
+      width: 100%;
+      background-color: white;
+      border-radius: 3px;
+      transition: var(--transition);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 25px;
+    }
+    
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      position: relative;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    
+    nav ul li a:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #fff;
+      transition: 0.3s;
+    }
+    
+    nav ul li a:hover:after, 
+    nav ul li a.active:after {
+      width: 100%;
+    }
+    
+    .hero {
+      padding: 80px 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1584433144859-1fc3ab64bca1?auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .privacy-section {
+      background: var(--secondary);
+      padding: 60px 0;
+    }
+    
+    .privacy-box {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .privacy-box h2 {
+      color: var(--primary);
+      margin: 30px 0 15px;
+      font-size: 1.8rem;
+    }
+    
+    .privacy-box h2:first-child {
+      margin-top: 0;
+    }
+    
+    .privacy-box p {
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+    }
+    
+    .privacy-box a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .privacy-box a:hover {
+      text-decoration: underline;
+    }
+    
+    footer {
+      background: var(--dark);
+      color: #fff;
+      padding: 50px 0 30px;
+      margin-top: 40px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+    
+    .footer-column h3:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--primary);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column ul li a {
+      color: #adb5bd;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    
+    .footer-column ul li a:hover {
+      color: #fff;
+    }
+    
+    .copyright {
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #adb5bd;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .logo img {
+        height: 45px;
+      }
+      
+      nav ul li {
+        margin-left: 15px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px;
+      }
+      
+      header {
+        height: 70px;
+      }
+      
+      .menu-toggle {
+        display: flex;
+        z-index: 1001;
+      }
+      
+      nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--gradient);
+        transition: 0.5s;
+        z-index: 999;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      nav.active {
+        right: 0;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+      
+      nav ul li {
+        margin: 15px 0;
+      }
+      
+      .hero {
+        padding: 60px 0;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+        padding: 0 15px;
+      }
+      
+      .privacy-section {
+        padding: 40px 0;
+      }
+      
+      .privacy-box {
+        padding: 30px 20px;
+      }
+      
+      .privacy-box h2 {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo img {
+        height: 40px;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .privacy-box {
+        padding: 20px 15px;
+      }
+      
+      .privacy-box h2 {
+        font-size: 1.3rem;
+      }
+      
+      .privacy-box p {
+        font-size: 1rem;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="logo.png" alt="Telegram Bot Hub Logo">
+        </div>
+        
+        <div class="menu-toggle" id="mobile-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        
+        <nav id="nav-menu">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="free.html">Free Bots</a></li>
+            <li><a href="premium.html">Premium Bots</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="deployment.html">Deployment</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="documentation.html">Docs</a></li>
+            <li><a href="privacy.html" class="active">Privacy</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Privacy Policy</h1>
+      <p>Your privacy matters. Here's how we handle your data.</p>
+    </div>
+  </section>
+
+  <!-- Privacy Content -->
+  <section class="privacy-section">
+    <div class="container">
+      <div class="privacy-box">
+        <h2>Information We Collect</h2>
+        <p>Our bots only collect the minimum data required to provide functionality. We do not store personal messages or share data with third parties.</p>
+
+        <h2>How We Use Information</h2>
+        <p>Data is used only to deliver bot features, maintain performance, and improve user experience.</p>
+
+        <h2>Data Retention</h2>
+        <p>We do not retain your data longer than necessary. Temporary data is automatically deleted after use.</p>
+
+        <h2>Your Rights</h2>
+        <p>You can request deletion of your data or stop using our bots at any time.</p>
+
+        <h2>Contact</h2>
+        <p>For any privacy concerns, contact us on Telegram: <a href="https://t.me/highoncodes">@highoncodes</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Telegram Bot Hub</h3>
+          <p>Your one-stop destination for high-quality Telegram bots.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 Telegram Bot Hub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle functionality
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    
+    mobileMenu.addEventListener('click', function() {
+      mobileMenu.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+    
+    // Close mobile menu when clicking on a link
+    const navLinks = document.querySelectorAll('nav ul li a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>

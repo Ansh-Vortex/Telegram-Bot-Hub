@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Telegram Bot Hub</title>
+    <link rel="icon" href="logo tab.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0088cc;
+            --primary-dark: #006da3;
+            --secondary: #f8f9fa;
+            --dark: #212529;
+            --light: #ffffff;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --donate-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            --gradient: #2e86de;
+            --border-radius: 12px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-top: 80px; /* Account for fixed header */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            background: var(--gradient);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        .menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            margin: 2px 0;
+            transition: var(--transition);
+            border-radius: 3px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            font-size: 1rem;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: var(--transition);
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+        
+        .cta-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: var(--donate-gradient);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            padding: 0 15px;
+        }
+        
+        /* Donate Section */
+        .donate {
+            padding: 60px 0;
+            flex: 1;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .donate-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .donate-box {
+            background: white;
+            padding: clamp(25px, 5vw, 50px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .donate-box h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+        
+        .donate-box p {
+            margin-bottom: 25px;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.8;
+        }
+        
+        .donate-button {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: clamp(12px, 3vw, 18px) clamp(25px, 5vw, 40px);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: var(--transition);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+            font-size: clamp(1rem, 2vw, 1.1rem);
+        }
+        
+        .donate-button:hover {
+            background: #218838;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(40, 167, 69, 0.5);
+        }
+        
+        .qr-code {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            display: inline-block;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .qr-code img {
+            width: 200px;
+            height: 200px;
+            display: block;
+            max-width: 100%;
+        }
+        
+        .qr-code p {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .donation-reasons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .donation-reason {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .donation-reason:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .donation-reason i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .donation-reason h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.3rem;
+        }
+        
+        .donation-reason p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .footer-column p {
+            margin-bottom: 20px;
+            color: #adb5bd;
+            line-height: 1.6;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header-content {
+                padding: 0 15px;
+            }
+            
+            nav ul li {
+                margin-left: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--dark);
+                transition: var(--transition);
+                z-index: 100;
+                padding: 80px 20px 20px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                margin-top: 30px;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .header-content {
+                justify-content: space-between;
+            }
+            
+            .cta-button {
+                display: none;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .donate {
+                padding: 40px 0;
+            }
+            
+            .donation-reasons {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .footer-content {
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo img {
+                height: 40px;
+            }
+            
+            .hero {
+                padding: 50px 0;
+            }
+            
+            .donate-box {
+                padding: 20px 15px;
+            }
+            
+            .qr-code {
+                padding: 15px;
+            }
+            
+            .qr-code img {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for menu toggle */
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="Telegram Bot Hub Logo">
+                </div>
+                
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="free.html">Free Bots</a></li>
+                        <li><a href="premium.html">Premium Bots</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="documentation.html">Docs</a></li>
+                    </ul>
+                </nav>
+                <a href="faq.html" class="cta-button">FAQs</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Support Our Work</h1>
+            <p>Your donations help us maintain and improve our free bots. Every contribution makes a difference!</p>
+        </div>
+    </section>
+
+    <!-- Donate Section -->
+    <section class="donate">
+        <div class="container">
+            <h2 class="section-title">Make a Donation</h2>
+            <div class="donate-content">
+                <div class="donate-box">
+                    <h2>Help Us Keep Bots Free</h2>
+                    <p>We work hard to create and maintain these bots for free. Your donation helps us cover server costs, development time, and allows us to keep providing free bots to the community.</p>
+                    <p>Every contribution, no matter how small, makes a difference and is greatly appreciated!</p>
+                    <a href="#" class="donate-button">Donate Now</a>
+                    <div class="qr-code">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=UPI_ID@ybl" alt="Donation QR Code">
+                        <p>Scan to donate via UPI</p>
+                    </div>
+                </div>
+                
+                <div class="donation-reasons">
+                    <div class="donation-reason">
+                        <i class="fas fa-server"></i>
+                        <h3>Server Costs</h3>
+                        <p>Help us cover monthly server expenses to keep bots running smoothly</p>
+                    </div>
+                    <div class="donation-reason">
+                        <i class="fas fa-code"></i>
+                        <h3>Development</h3>
+                        <p>Support ongoing development of new features and bot improvements</p>
+                    </div>
+                    <div class="donation-reason">
+                        <i class="fas fa-heart"></i>
+                        <h3>Keep Bots Free</h3>
+                        <p>Your donation helps us keep most bots free for everyone to use</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Telegram Bot Hub</h3>
+                    <p>Your destination for the best Telegram bots. Free and premium options available for all users.</p>
+                    <div class="social-links">
+                        <a href="https://t.me/highoncodes"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                        <li><a href="free.html">Free Bots</a></li>
+                        <li><a href="premium.html">Premium Bots</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="https://t.me/highoncodes">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="https://t.me/highoncodes">Telegram: @highoncodes</a></li>
+                        <li><a href="mailto:telegram.bots.hub@gmail.com">Email: telegram.bots.hub@gmail.com</a></li>
+                        <li><a href="https://t.me/highoncodes">Support Center</a></li>
+                        <li><a href="documentation.html">Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Telegram Bot Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            menuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                nav.classList.toggle('active');
+                
+                // Prevent body scrolling when menu is open
+                if (nav.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Close menu when clicking on a link
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    menuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const isClickInsideNav = nav.contains(event.target);
+                const isClickOnToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideNav && !isClickOnToggle && nav.classList.contains('active')) {
+                    menuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

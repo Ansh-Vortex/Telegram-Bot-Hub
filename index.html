@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bot Hub - Premium & Free Bots</title>
+    <link rel="icon" href="logo tab.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0088cc;
+            --primary-dark: #006da3;
+            --secondary: #f8f9fa;
+            --dark: #212529;
+            --light: #ffffff;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gradient: linear-gradient(135deg, var(--primary), #2e86de);
+            --donate-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-top: 80px; /* Account for fixed header */
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            background: var(--gradient);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 100px;
+            width: auto;
+            max-width: 100%;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #ffffff;
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Mobile Navigation */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 5px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: center;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin: 0 auto 30px;
+            max-width: 90%;
+        }
+        
+        /* Highlight Boxes */
+        .highlights {
+            padding: 60px 0;
+            background: var(--secondary);
+        }
+        
+        .highlight-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .highlight-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .highlight-box:hover {
+            transform: translateY(-10px);
+        }
+        
+        .highlight-box.donate {
+            border-top: 5px solid #f6d365;
+        }
+        
+        .highlight-box.deploy {
+            border-top: 5px solid var(--primary);
+        }
+        
+        .highlight-box.custom {
+            border-top: 5px solid var(--success);
+        }
+        
+        .highlight-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-box.donate .highlight-icon {
+            color: #f6d365;
+        }
+        
+        .highlight-box.deploy .highlight-icon {
+            color: var(--primary);
+        }
+        
+        .highlight-box.custom .highlight-icon {
+            color: var(--success);
+        }
+        
+        .highlight-box h2 {
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+        
+        .highlight-box p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        /* Bots Section */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 30px;
+            font-size: 2.2rem;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+            padding: 0 15px;
+        }
+        
+        .bots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+        
+        .bot-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .bot-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .bot-card.premium {
+            border-top: 4px solid var(--warning);
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--warning);
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+        
+        .bot-image {
+            height: 160px;
+            background: linear-gradient(45deg, #6c5ce7, #0088cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bot-image:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="rgba(255,255,255,0.1)" x="0" y="0" width="50" height="50"/><rect fill="rgba(255,255,255,0.1)" x="50" y="50" width="50" height="50"/></svg>');
+            background-size: 10px;
+            opacity: 0.3;
+        }
+        
+        .bot-info {
+            padding: 20px;
+        }
+        
+        .bot-info h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+        
+        .bot-info p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            min-height: 70px;
+        }
+        
+        .bot-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .bot-tag {
+            background: #e9ecef;
+            color: var(--gray);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .bot-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .bot-button {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .bot-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .details-button {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .details-button:hover {
+            background: #e9ecef;
+        }
+        
+        .premium-button {
+            background: linear-gradient(135deg, var(--warning), #ffaa00);
+            color: #333;
+        }
+        
+        .premium-button:hover {
+            background: linear-gradient(135deg, #ffaa00, #ff9900);
+            color: #333;
+        }
+        
+        .bot-price {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+        
+        /* About Section */
+        .about {
+            background: var(--secondary);
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-content p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .contact-telegram {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+        }
+        
+        .contact-telegram:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.4);
+        }
+        
+        .contact-telegram i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .footer-column p {
+            margin-bottom: 20px;
+            color: #adb5bd;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        /* Ad Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .popup-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: translateY(50px);
+            transition: transform 0.5s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s ease;
+        }
+        
+        .close-popup:hover {
+            color: var(--danger);
+        }
+        
+        .popup-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .popup-content p {
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        
+        .popup-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .popup-donate {
+            background: var(--success);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-donate:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .popup-close {
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-close:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        /* Bot Details Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(50px);
+            transition: transform 0.5s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--danger);
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .modal-icon {
+            font-size: 2.5rem;
+            margin-right: 20px;
+            color: var(--primary);
+        }
+        
+        .modal-title h2 {
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+        
+        .modal-title p {
+            color: var(--gray);
+        }
+        
+        .modal-body {
+            margin-bottom: 30px;
+        }
+        
+        .modal-body h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 8px;
+        }
+        
+        .modal-body p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .modal-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .modal-feature {
+            background: var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .modal-feature i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .modal-footer {
+            text-align: center;
+        }
+        
+        /* Page Navigation */
+        .page-section {
+            scroll-margin-top: 100px;
+        }
+        
+        /* Suggestion Section */
+        .suggestion-section {
+            background: var(--secondary);
+            padding: 60px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .suggestion-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .suggestion-box h2 {
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .suggestion-box p {
+            margin-bottom: 25px;
+            color: var(--gray);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .bots-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .highlight-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                height: calc(100vh - 80px);
+                width: 100%;
+                background: var(--primary-dark);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 40px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in;
+                z-index: 99;
+            }
+            
+            nav ul.active {
+                transform: translateX(0);
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .header-content {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                padding: 60px 0;
+                min-height: 60vh;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .highlight-box {
+                padding: 25px 20px;
+            }
+            
+            .bot-info {
+                padding: 15px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .modal-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .modal-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .popup-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo img {
+                height: 40px;
+            }
+            
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .bot-card {
+                margin: 0 5px;
+            }
+            
+            .modal-content {
+                padding: 20px 15px;
+            }
+            
+            .highlight-icon {
+                font-size: 2.5rem;
+            }
+            
+            .bot-image {
+                height: 140px;
+                font-size: 2.5rem;
+            }
+            
+            .cta-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            nav ul {
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="Telegram Bot Hub Logo" style="height:50px;width:auto;">
+                </div>
+                <button class="menu-toggle" id="menu-toggle">
+                    <span>Menu</span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <nav>
+                    <ul id="nav-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="free.html">Free Bots</a></li>
+                        <li><a href="premium.html">Premium Bots</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="documentation.html">Docs</a></li>
+                    </ul>
+                </nav>
+                <a href="faq.html" class="cta-button">FAQs</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Discover Amazing Telegram Bots & Create Your Own without Any Coding Knowledge</h1>
+                <p>Enhance your Telegram experience with our collection of 50+ bots including 10 exclusive premium bots for power users.</p>
+                <a href="#bots" class="cta-button">Explore Bots</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights Section -->
+    <section class="highlights">
+        <div class="container">
+            <div class="highlight-container">
+                <div class="highlight-box donate">
+                    <div class="highlight-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h2>Support Our Work</h2>
+                    <p>Your donations help us maintain and improve our free bots. Every contribution makes a difference!</p>
+                    <a href="donate.html" class="cta-button">Donate Now</a>
+                </div>
+                
+                <div class="highlight-box deploy">
+                    <div class="highlight-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h2>Bot Deployment</h2>
+                    <p>Get your bot deployed and hosted professionally starting at just ₹50/month with 99.9% uptime.</p>
+                    <a href="deployment.html" class="cta-button">Deploy Now</a>
+                </div>
+                
+                <div class="highlight-box custom">
+                    <div class="highlight-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h2>Custom Bots</h2>
+                    <p>Need a custom Telegram bot tailored to your specific requirements? We can build it for you!</p>
+                    <a href="https://t.me/highoncodes" class="cta-button">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Bots Section -->
+    <section id="bots" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Free Bots</h2>
+            <p class="section-subtitle">Explore our collection of 40 free bots that can enhance your Telegram experience</p>
+            <div class="bots-grid">
+                <!-- Free Bot Cards - 3 examples shown -->
+                <div class="bot-card">
+                    <div class="bot-image">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3> Player & Terabox Downloader</h3>
+                        <p>Download or Play Terabox Videos Instantly Using this Bot.</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Videos</span>
+                            <span class="bot-tag">Terabox</span>
+                            <span class="bot-tag">Free</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="Free Bots/terabox-downloader-bot-main.zip" class="bot-button free-button">Download Source Code</a>
+                            <a href="https://t.me/TBoxDownloaderBot" class="bot-button details-button">Add to Telegram</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bot-card">
+                    <div class="bot-image">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Ghibli/Anime Photo Converter</h3>
+                        <p>You can transform your normal photo in Anime/Ghibli Style using this Bot</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">AI</span>
+                            <span class="bot-tag">Photos</span>
+                            <span class="bot-tag">Free</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="Free Bots/photo-to-anime.zip" class="bot-button free-button">Download Source Code</a>
+                            <a href="https://t.me/owner_of_this_allrobot" class="bot-button details-button">Add to Telegram</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bot-card">
+                    <div class="bot-image">
+                        <i class="fa-solid fa-heart"></i> <i class="fa-solid fa-comment"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Dating Chat Bot</h3>
+                        <p>This Bot helps you to find your perfect match. Chat with Random Peoples</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Chat</span>
+                            <span class="bot-tag">Dating</span>
+                            <span class="bot-tag">Free</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/RandomChatsRobot" class="bot-button details-button">Add to Telegram</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="free.html" class="cta-button">View All Free Bots</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Bots Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Premium Bots</h2>
+            <p class="section-subtitle">Exclusive premium bots with advanced features (Contact us to purchase)</p>
+            <div class="bots-grid">
+                <!-- Premium Bot Cards - 3 examples shown -->
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Osint Number Leaker</h3>
+                        <p>Get Any Number of a Telegram Account Just By Username/User ID</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Leaker</span>
+                            <span class="bot-tag">Premium</span>
+                            <span class="bot-tag">OSINT</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹999 one-time | ₹100 Per Use</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Phone Number Look Up</h3>
+                        <p>Get All The Details of a Person from a Phone Number Through OSINT</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Phone Number</span>
+                            <span class="bot-tag">Premium</span>
+                            <span class="bot-tag">OSINT</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹1499 one-time | ₹50 Per Use</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Spy Tracker</h3>
+                        <p>Track Any User Privately. When They Are Coming Online and Going Offline Even If They Have Hidden Their Last Seen</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Spy</span>
+                            <span class="bot-tag">Tracker</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹99 one-time</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="premium.html" class="cta-button">View All Premium Bots</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about page-section" id="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About Us</h2>
+                <p>We are a team of passionate developers dedicated to creating useful Telegram bots that enhance user experience. With over 50 bots in our collection, we strive to provide solutions for various needs - from entertainment to productivity.</p>
+                <p>Our mission is to make Telegram bots accessible to everyone, regardless of technical knowledge. Whether you're looking for a ready-to-use bot or need a custom solution, we're here to help.</p>
+                <a href="https://t.me/highoncodes" class="contact-telegram">
+                    <i class="fab fa-telegram"></i> Contact Us on Telegram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suggestion Section -->
+    <section class="suggestion-section">
+        <div class="container">
+            <div class="suggestion-box">
+                <h2>Have a Bot Idea?</h2>
+                <p>If you have an idea for a Telegram bot but don't know how to code it, we can help bring your idea to life!</p>
+                <a href="https://t.me/highoncodes" class="cta-button">Suggest a Bot Idea</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <p>We create and provide high-quality Telegram bots for various purposes. Our mission is to enhance the Telegram experience for users worldwide.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="free.html">Free Bots</a></li>
+                        <li><a href="premium.html">Premium Bots</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="documentation.html">Documentation</a></li>
+                        <li><a href="https://t.me/highoncodes">Contact Us</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column" id="contact">
+                    <h3>Contact Us</h3>
+                    <p>Have questions or need support? Reach out to us on Telegram:</p>
+                    <a href="https://t.me/highoncodes" class="cta-button">@highoncodes</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Telegram Bot Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ad Popup -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <button class="close-popup" id="close-popup">&times;</button>
+            <h2>Support Our Work</h2>
+            <p>We provide free bots to enhance your Telegram experience. Your donations help us maintain and improve these bots.</p>
+            <div class="popup-buttons">
+                <a href="donate.html" class="popup-donate">Donate Now</a>
+                <a href="#" class="popup-close" id="popup-close">Maybe Later</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bot Details Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="modal-title">
+                    <h2>Bot Name</h2>
+                    <p>Category • Free/Premium</p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h3>Description</h3>
+                <p>Detailed description of the bot and its functionality. This section provides comprehensive information about what the bot does, how it can be useful, and any special features it offers.</p>
+                
+                <h3>Features</h3>
+                <div class="modal-features">
+                    <div class="modal-feature">
+                        <i class="fas fa-bolt"></i>
+                        <p>Fast Processing</p>
+                    </div>
+                    <div class="modal-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <p>Secure & Private</p>
+                    </div>
+                    <div class="modal-feature">
+                        <i class="fas fa-cogs"></i>
+                        <p>Easy to Use</p>
+                    </div>
+                    <div class="modal-feature">
+                        <i class="fas fa-star"></i>
+                        <p>Premium Features</p>
+                    </div>
+                </div>
+                
+                <h3>How to Use</h3>
+                <p>Step-by-step instructions on how to use the bot. This includes commands, setup process, and any configuration required.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="cta-button">Add to Telegram</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+        
+        // Popup functionality
+        const popup = document.getElementById('popup');
+        const closePopup = document.getElementById('close-popup');
+        const popupCloseBtn = document.getElementById('popup-close');
+        
+        // Show popup after 5 seconds
+        setTimeout(() => {
+            popup.classList.add('active');
+        }, 5000);
+        
+        // Close popup functionality
+        closePopup.addEventListener('click', () => {
+            popup.classList.remove('active');
+        });
+        
+        popupCloseBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            popup.classList.remove('active');
+        });
+        
+        // Modal functionality
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('close-modal');
+        
+        // Example of opening modal (would be triggered by bot card buttons)
+        document.querySelectorAll('.details-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('active');
+            });
+        });
+        
+        // Close modal functionality
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

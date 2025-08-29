@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Telegram Bots - Telegram Bot Hub</title>
+    <link rel="icon" href="logo tab.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0088cc;
+            --primary-dark: #006da3;
+            --secondary: #f8f9fa;
+            --dark: #212529;
+            --light: #ffffff;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gradient: linear-gradient(135deg, var(--primary), #2e86de);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            background: var(--gradient);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 5px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: center;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+        
+        .cta-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Bots Section */
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 2.2rem;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .bots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .bot-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .bot-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .bot-card.premium {
+            border-top: 4px solid var(--warning);
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--warning);
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+        
+        .bot-image {
+            height: 160px;
+            background: linear-gradient(45deg, #ff9a00, #ff6a00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bot-image:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="rgba(255,255,255,0.1)" x="0" y="0" width="50" height="50"/><rect fill="rgba(255,255,255,0.1)" x="50" y="50" width="50" height="50"/></svg>');
+            background-size: 10px;
+            opacity: 0.3;
+        }
+        
+        .bot-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bot-info h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            color: var(--dark);
+        }
+        
+        .bot-info p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+        
+        .bot-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .bot-tag {
+            background: #e9ecef;
+            color: var(--gray);
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .bot-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+        
+        .bot-button {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .bot-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .premium-button {
+            background: linear-gradient(135deg, var(--warning), #ffaa00);
+            color: #333;
+        }
+        
+        .premium-button:hover {
+            background: linear-gradient(135deg, #ffaa00, #ff9900);
+            color: #333;
+        }
+        
+        .bot-price {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+        
+        /* Suggestion Section */
+        .suggestion-section {
+            background: var(--secondary);
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .suggestion-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .suggestion-box h2 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.8rem;
+        }
+        
+        .suggestion-box p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .footer-column p {
+            margin-bottom: 15px;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.85rem;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            animation: modalFade 0.3s;
+        }
+        
+        @keyframes modalFade {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .bots-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .page-header h1 {
+                font-size: 2.3rem;
+            }
+            
+            .page-header p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                height: auto;
+                padding: 15px 0;
+            }
+            
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .logo img {
+                height: 40px;
+            }
+            
+            nav {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 80px);
+                background: var(--gradient);
+                transition: all 0.4s ease;
+                z-index: 99;
+                flex-direction: column;
+                padding: 30px 20px;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 20px;
+            }
+            
+            nav ul li {
+                margin: 0 0 20px 0;
+                width: 100%;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 10px 0;
+                font-size: 1.1rem;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .cta-button {
+                margin-top: 20px;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .page-header {
+                padding: 60px 0;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .bot-buttons {
+                flex-direction: column;
+            }
+            
+            .bot-button {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .page-header {
+                padding: 40px 0;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+                margin: 30px 0 20px;
+            }
+            
+            .bots-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .bot-card {
+                margin: 0;
+            }
+            
+            .suggestion-box {
+                padding: 20px;
+            }
+            
+            .suggestion-box h2 {
+                font-size: 1.5rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="Telegram Bot Hub Logo">
+                </div>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <nav id="nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="free.html">Free Bots</a></li>
+                        <li><a href="premium.html">Premium Bots</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="documentation.html">Docs</a></li>
+                    </ul>
+                    <a href="faq.html" class="cta-button">FAQs</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Premium Telegram Bots</h1>
+            <p>Exclusive premium bots with advanced features and dedicated support</p>
+        </div>
+    </div>
+
+    <!-- Bots Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">All Premium Bots</h2>
+            <div class="bots-grid">
+                <!-- 10 Premium Bot Cards -->
+                <!-- First 3 are the same as index.html -->
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Osint Number Leaker</h3>
+                        <p>Get Any Number of a Telegram Account Just By Username/User ID</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Leaker</span>
+                            <span class="bot-tag">Premium</span>
+                            <span class="bot-tag">OSINT</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹999 one-time | ₹100 Per Use</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Phone Number Look Up</h3>
+                        <p>Get All The Details of a Person from a Phone Number Through OSINT</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Phone Number</span>
+                            <span class="bot-tag">Premium</span>
+                            <span class="bot-tag">OSINT</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹1499 one-time | ₹50 Per Use</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>VC Music Player</h3>
+                        <p>Make Your Very Own VC Music Player BOT (Free Deployment with this one)</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Music</span>
+                            <span class="bot-tag">Premium</span>
+                            <span class="bot-tag">Free Deployment</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹199 one-time</div>
+                    </div>
+                </div>
+                
+                <!-- Additional 7 premium bots -->
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>AI Chat Assistant</h3>
+                        <p>Advanced AI chatbot with natural language processing for customer support (With API Key)</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">AI</span>
+                            <span class="bot-tag">Free API</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹149 one-time</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Spy Tracker</h3>
+                        <p>Track Any User Privately. When They Are Coming Online and Going Offline Even If They Have Hidden Their Last Seen</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Spy</span>
+                            <span class="bot-tag">Tracker</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹99 one-time</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fa-solid fa-share-from-square"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Private GC Msg Forwarder</h3>
+                        <p>See all the Chats and Media Even Deleted Msgs and Clear Chat Msgs of a Private GC that You are in Without Being Admin</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Private</span>
+                            <span class="bot-tag">Forwarder</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹69 one-time</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fa-solid fa-spider"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Custom PC Malware Bot</h3>
+                        <p>Make Undetectable Malware/.exe to hack anybodys PC and Control it from a Telegram BOT.</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Malware</span>
+                            <span class="bot-tag">Hacking</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹899 one-time (With All PC Commands)</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fa-brands fa-android"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Custom Android Malware BOT</h3>
+                        <p>Make a APK and controls Victims Phone with a BOT ( Photos, all Contacts, location, live sharing etc).</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Hacking</span>
+                            <span class="bot-tag">APK</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                        </div>
+                        <div class="bot-price">₹999 one-time</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Project Manager</h3>
+                        <p>Manage projects, assign tasks, and track progress with your team.</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Project</span>
+                            <span class="bot-tag">Management</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                            <a href="#" class="bot-button details-button" data-bot="project-manager">Details</a>
+                        </div>
+                        <div class="bot-price">₹2299 one-time</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Notification Center</h3>
+                        <p>Centralize all your notifications from various apps and services in one place.</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Notifications</span>
+                            <span class="bot-tag">Productivity</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                            <a href="#" class="bot-button details-button" data-bot="notification-center">Details</a>
+                        </div>
+                        <div class="bot-price">₹1799 one-time</div>
+                    </div>
+                </div>
+                
+                <div class="bot-card premium">
+                    <div class="premium-badge">Premium</div>
+                    <div class="bot-image">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="bot-info">
+                        <h3>Code Deployer</h3>
+                        <p>Automatically deploy code from repositories with CI/CD integration.</p>
+                        <div class="bot-tags">
+                            <span class="bot-tag">Development</span>
+                            <span class="bot-tag">Deployment</span>
+                            <span class="bot-tag">Premium</span>
+                        </div>
+                        <div class="bot-buttons">
+                            <a href="https://t.me/highoncodes" class="bot-button premium-button">Contact to Purchase</a>
+                            <a href="#" class="bot-button details-button" data-bot="code-deployer">Details</a>
+                        </div>
+                        <div class="bot-price">₹2999 one-time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suggestion Section -->
+    <section class="suggestion-section">
+        <div class="container">
+            <div class="suggestion-box">
+                <h2>We'll Add More Premium Bots Soon!</h2>
+                <p>We're constantly developing new premium bots with advanced features. If you have suggestions for premium bots you'd like to see, please let us know!</p>
+                <p>Contact us on Telegram: <a href="https://t.me/highoncodes" style="color: var(--primary); text-decoration: none;">@highoncodes</a></p>
+                <a href="https://t.me/highoncodes" class="cta-button">Send Your Suggestion</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bot Details Modal -->
+    <div class="modal" id="botModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 id="modalTitle">Bot Details</h2>
+            <div id="modalContent">
+                <p>Detailed information about the bot will appear here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Telegram Bot Hub</h3>
+                    <p>Your one-stop destination for high-quality Telegram bots. Free and premium options available for all your needs.</p>
+                    <div class="social-links">
+                        <a href="https://t.me/highoncodes"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="free.html">Free Bots</a></li>
+                        <li><a href="premium.html">Premium Bots</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="deployment.html">Deployment</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="documentation.html">Docs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="documentation.html">Documentation</a></li>
+                        <li><a href="https://t.me/highoncodes">Contact Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="policy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-envelope"></i> telegram.bots.hub</p>
+                    <p><i class="fab fa-telegram"></i> @highoncodes</p>
+                    <p><i class="fas fa-globe"></i> www.telegrambothub.com</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Telegram Bot Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation
+        const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+        
+        // Close mobile nav when clicking on links
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                nav.classList.remove('active');
+            });
+        });
+        
+        // Modal functionality
+        const modal = document.getElementById('botModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const detailButtons = document.querySelectorAll('.details-button');
+        
+        // Bot details data
+        const botDetails = {
+            'server-monitor': {
+                title: 'Server Monitor Bot',
+                content: '<p>Monitor your servers and receive alerts for downtime or performance issues.</p><h3>Features:</h3><ul><li>Real-time server monitoring</li><li>Custom alert thresholds</li><li>Multiple server support</li><li>Performance reports</li><li>Integration with popular hosting services</li></ul>'
+            },
+            'payment-processor': {
+                title: 'Payment Processor Bot',
+                content: '<p>Accept and process payments directly through Telegram with multiple options.</p><h3>Features:</h3><ul><li>Multiple payment gateway support</li><li>Invoice generation</li><li>Payment tracking</li><li>Refund management</li><li>Secure transaction processing</li></ul>'
+            },
+            'project-manager': {
+                title: 'Project Manager Bot',
+                content: '<p>Manage projects, assign tasks, and track progress with your team.</p><h3>Features:</h3><ul><li>Task assignment and tracking</li><li>Team collaboration tools</li><li>Progress reporting</li><li>Deadline reminders</li><li>File sharing integration</li></ul>'
+            },
+            'notification-center': {
+                title: 'Notification Center Bot',
+                content: '<p>Centralize all your notifications from various apps and services in one place.</p><h3>Features:</h3><ul><li>Multi-platform integration</li><li>Custom notification rules</li><li>Priority filtering</li><li>Notification history</li><li>Silent hours setting</li></ul>'
+            },
+            'code-deployer': {
+                title: 'Code Deployer Bot',
+                content: '<p>Automatically deploy code from repositories with CI/CD integration.</p><h3>Features:</h3><ul><li>Git integration</li><li>Multiple environment support</li><li>Deployment history</li><li>Rollback capability</li><li>Team collaboration features</li></ul>'
+            }
+        };
+        
+        // Open modal with bot details
+        detailButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const botId = button.getAttribute('data-bot');
+                
+                if (botDetails[botId]) {
+                    modalTitle.textContent = botDetails[botId].title;
+                    modalContent.innerHTML = botDetails[botId].content;
+                    modal.style.display = 'flex';
+                }
+            });
+        });
+        
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
